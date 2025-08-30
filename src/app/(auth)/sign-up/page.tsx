@@ -9,6 +9,7 @@ import {
 } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
+import { Separator } from "@/src/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Sign Up",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-svh items-center justify-center">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">Sign Up</h1>
@@ -33,25 +34,15 @@ export default function SignUpPage() {
           </CardHeader>
           <CardContent>
             <SignUpForm />
+
+            <div className="text-center text-sm">
+              <span>Already have an account? </span>
+              <Button asChild variant="link" className="px-0">
+                <Link href="/sign-in">Sign in</Link>
+              </Button>
+            </div>
           </CardContent>
         </Card>
-
-        <div className="text-center text-sm">
-          <span>Already have an account? </span>
-          <Button asChild variant="link" className="px-0">
-            <Link href="/sign-in">Sign in</Link>
-          </Button>
-        </div>
-
-        <div className="text-center text-xs space-x-4">
-          <Button asChild variant="link" className="px-0 h-auto text-xs">
-            <Link href="/terms">Terms of Service</Link>
-          </Button>
-          <span>•</span>
-          <Button asChild variant="link" className="px-0 h-auto text-xs">
-            <Link href="/privacy">Privacy Policy</Link>
-          </Button>
-        </div>
       </div>
     </div>
   );

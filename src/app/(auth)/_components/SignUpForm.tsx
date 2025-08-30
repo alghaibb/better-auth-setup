@@ -1,9 +1,7 @@
 "use client";
 
-import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -15,20 +13,21 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
-import { Checkbox } from "@/src/components/ui/checkbox";
 import {
   signUpSchema,
   type SignUpFormData,
 } from "@/src/lib/validations/sign-up-schema";
 import { toast } from "sonner";
 import { PasswordInput } from "@/src/components/ui/password-input";
-import { Label } from "@/src/components/ui/label";
+import { Separator } from "@/src/components/ui/separator";
+import { authClient } from "@/src/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema) as any,
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -38,21 +37,22 @@ export default function SignUpForm() {
   });
 
   async function onSubmit(data: SignUpFormData) {
-    try {
-      // TODO: Implement sign up logic with Better Auth
-      startTransition(async () => {
-        // Simulate sign up with a delay
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+    const { error } = await authClient.signUp.email({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      callbackURL: "/email-verified",
+    });
 
-        console.log("Sign up form data:", data);
-
-        toast.success("Sign up successful");
-      });
-    } catch (error) {
-      console.error("Sign up error:", error);
-      toast.error("Sign up failed");
+    if (error) {
+      toast.error(error.message || "Something went wrong");
+    } else {
+      toast.success("Sign up successful");
+      router.push("/");
     }
   }
+
+  const isLoading = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
@@ -64,7 +64,7 @@ export default function SignUpForm() {
             <FormItem>
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} disabled={isPending} />
+                <Input placeholder="John Doe" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,7 +82,7 @@ export default function SignUpForm() {
                   type="email"
                   placeholder="john@example.com"
                   {...field}
-                  disabled={isPending}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -99,7 +99,7 @@ export default function SignUpForm() {
                 <PasswordInput
                   placeholder="Password"
                   {...field}
-                  disabled={isPending}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormDescription>
@@ -120,7 +120,7 @@ export default function SignUpForm() {
                 <PasswordInput
                   placeholder="Confirm Password"
                   {...field}
-                  disabled={isPending}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -133,11 +133,14 @@ export default function SignUpForm() {
           className="w-full"
           size="lg"
           variant="default"
-          disabled={isPending}
+          loading={isLoading}
+          loadingText="Creating account..."
         >
-          {isPending ? "Creating account..." : "Create account"}
+          Create account
         </Button>
       </form>
+
+      <Separator className="my-4" />
     </Form>
   );
 }
