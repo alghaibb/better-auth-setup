@@ -22,6 +22,7 @@ import { PasswordInput } from "@/src/components/ui/password-input";
 import { Separator } from "@/src/components/ui/separator";
 import { authClient } from "@/src/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function SignInForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -74,6 +75,12 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
+
+        <div className="text-end">
+          <Button asChild variant="link" className="px-0">
+            <Link href="/forgot-password">Forgot password?</Link>
+          </Button>
+        </div>
 
         <FormField
           control={form.control}
@@ -96,7 +103,7 @@ export default function SignInForm() {
           control={form.control}
           name="rememberMe"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+            <FormItem className="flex flex-row items-center space-y-0">
               <FormControl>
                 <Checkbox
                   checked={field.value}
