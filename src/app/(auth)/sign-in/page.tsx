@@ -9,13 +9,22 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getServerSession } from "@/lib/get-session";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign In",
   description: "Sign in to your account",
 };
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <>
       <div className="w-full max-w-md space-y-6">

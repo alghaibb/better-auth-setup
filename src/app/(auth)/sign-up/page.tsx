@@ -9,13 +9,22 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getServerSession } from "@/lib/get-session";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign Up",
   description: "Create a new account to get started",
 };
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <>
       <div className="w-full max-w-md space-y-6">
