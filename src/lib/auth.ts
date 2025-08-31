@@ -1,9 +1,13 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { emailOTP } from "better-auth/plugins";
+import { emailOTP, magicLink } from "better-auth/plugins";
 import { createAuthMiddleware, APIError } from "better-auth/api";
 import prisma from "./prisma";
-import { sendOtpEmail, sendResetPasswordEmail } from "./email";
+import {
+  sendOtpEmail,
+  sendResetPasswordEmail,
+  sendMagicLinkEmail,
+} from "./email";
 import {
   passwordSchema,
   nameSchema,
@@ -54,6 +58,16 @@ export const auth = betterAuth({
       expiresIn: 300,
       sendVerificationOnSignUp: true,
       overrideDefaultEmailVerification: true,
+    }),
+    magicLink({
+      async sendMagicLink({ email, url, token }, request) {
+        await sendMagicLinkEmail({
+          to: email,
+          url,
+          name: undefined,
+        });
+      },
+      expiresIn: 300,
     }),
   ],
   hooks: {

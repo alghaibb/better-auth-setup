@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { render } from "@react-email/render";
 import VerifyEmailOtp from "./email-templates/verify-email-otp";
 import ResetPassword from "./email-templates/reset-password";
+import MagicLink from "./email-templates/magic-link";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -18,6 +19,12 @@ interface SendOtpEmailValues {
 }
 
 interface SendResetPasswordEmailValues {
+  to: string;
+  url: string;
+  name?: string;
+}
+
+interface SendMagicLinkEmailValues {
   to: string;
   url: string;
   name?: string;
@@ -71,6 +78,26 @@ export async function sendResetPasswordEmail({
     });
   } catch (error) {
     console.error("Failed to send password reset email:", error);
+    throw error;
+  }
+}
+
+export async function sendMagicLinkEmail({
+  to,
+  url,
+  name,
+}: SendMagicLinkEmailValues) {
+  try {
+    const emailHtml = await render(MagicLink({ url, email: to, name }));
+
+    await resend.emails.send({
+      from: "noreply@codewithmj.com",
+      to,
+      subject: "Sign in to your account",
+      html: emailHtml,
+    });
+  } catch (error) {
+    console.error("Failed to send magic link email:", error);
     throw error;
   }
 }
