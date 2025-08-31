@@ -41,7 +41,6 @@ export default function SignInForm() {
       email: data.email,
       password: data.password,
       rememberMe: data.rememberMe,
-      callbackURL: "/",
     });
 
     if (error) {

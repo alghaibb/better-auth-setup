@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
 import {
   Card,
   CardContent,
@@ -10,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import VerifyEmailForm from "../_components/VerifyEmailForm";
+import { getServerSession } from "@/lib/get-session";
 
 export const metadata: Metadata = {
   title: "Verify Email",
@@ -17,18 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default async function VerifyEmailPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getServerSession();
+  const user = session?.user;
 
-  if (!session) {
+  if (!user) {
     redirect("/sign-in");
   }
 
-  const { user } = session;
-
-  // If already verified, redirect to dashboard
-  if (user.emailVerified) {
+  if (user?.emailVerified) {
     redirect("/dashboard");
   }
 
