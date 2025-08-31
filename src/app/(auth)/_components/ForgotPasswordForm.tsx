@@ -9,17 +9,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
-import { Button } from "@/src/components/ui/button";
-import { forgotPasswordSchema, type ForgotPasswordFormData } from "@/src/lib/validations/forgot-password-schema";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordFormData,
+} from "@/lib/validations/forgot-password-schema";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Separator } from "@/src/components/ui/separator";
+import { Separator } from "@/components/ui/separator";
+import { authClient } from "@/lib/auth-client";
 
 export default function ForgotPasswordForm() {
-  const router = useRouter();
-
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -28,12 +29,20 @@ export default function ForgotPasswordForm() {
   });
 
   async function onSubmit(data: ForgotPasswordFormData) {
-    // TODO: Implement forgot password
+    const { error } = await authClient.forgetPassword({
+      email: data.email,
+      redirectTo: "/reset-password",
+    });
 
-    // Simulate a successful forgot password
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    toast.success("If you have an account with us, we will send you an email to reset your password");
-    router.push("/");
+    if (error) {
+      toast.error(error.message || "Failed to send reset email");
+      return;
+    } else {
+      toast.success(
+        "If you have an account with us, we will send you an email to reset your password"
+      );
+      form.reset();
+    }
   }
 
   const isLoading = form.formState.isSubmitting;
@@ -48,7 +57,11 @@ export default function ForgotPasswordForm() {
             <FormItem>
               <FormLabel>Email Address</FormLabel>
               <FormControl>
-                <Input placeholder="john@example.com" {...field} disabled={isLoading} />
+                <Input
+                  placeholder="john@example.com"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
