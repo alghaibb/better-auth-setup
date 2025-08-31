@@ -10,17 +10,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
-import { Button } from "@/src/components/ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   signUpSchema,
   type SignUpFormData,
-} from "@/src/lib/validations/sign-up-schema";
+} from "@/lib/validations/sign-up-schema";
 import { toast } from "sonner";
-import { PasswordInput } from "@/src/components/ui/password-input";
-import { Separator } from "@/src/components/ui/separator";
-import { authClient } from "@/src/lib/auth-client";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Separator } from "@/components/ui/separator";
+import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
@@ -37,18 +37,26 @@ export default function SignUpForm() {
   });
 
   async function onSubmit(data: SignUpFormData) {
-    const { error } = await authClient.signUp.email({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      callbackURL: "/email-verified",
-    });
+    try {
+      const { error } = await authClient.signUp.email({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
 
-    if (error) {
-      toast.error(error.message || "Something went wrong");
-    } else {
-      toast.success("Sign up successful");
-      router.push("/");
+      if (error) {
+        console.error("Sign up error:", error);
+        toast.error(error.message || "Something went wrong");
+        return;
+      }
+
+      toast.success(
+        "Account created! Please check your email for verification code."
+      );
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Sign up error:", error);
+      toast.error("Sign up failed. Please try again.");
     }
   }
 

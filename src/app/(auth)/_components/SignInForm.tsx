@@ -9,18 +9,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
-import { Button } from "@/src/components/ui/button";
-import { Checkbox } from "@/src/components/ui/checkbox";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   signInSchema,
   type SignInFormData,
-} from "@/src/lib/validations/sign-in-schema";
+} from "@/lib/validations/sign-in-schema";
 import { toast } from "sonner";
-import { PasswordInput } from "@/src/components/ui/password-input";
-import { Separator } from "@/src/components/ui/separator";
-import { authClient } from "@/src/lib/auth-client";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Separator } from "@/components/ui/separator";
+import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -48,7 +48,7 @@ export default function SignInForm() {
       toast.error(error.message || "Something went wrong");
     } else {
       toast.success("Sign in successful");
-      router.push("/");
+      router.push("/dashboard");
     }
   }
 
