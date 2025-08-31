@@ -13,6 +13,7 @@ import { getServerSession } from "@/lib/get-session";
 import { redirect } from "next/navigation";
 import { GitHubLoginButton } from "@/components/ui/github-login-button";
 import { OrSeparator } from "@/components/ui/or-separator";
+import { MagicLinkForm } from "@/app/(auth)/magic-link/_components/MagicLinkForm";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -44,6 +45,10 @@ export default async function SignInPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <GitHubLoginButton />
+
+            <OrSeparator />
+
+            <MagicLinkForm callbackURL="/dashboard" />
 
             <OrSeparator />
 
