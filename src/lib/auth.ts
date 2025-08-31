@@ -14,6 +14,13 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  socialProviders: {
+    github: {
+      enabled: true,
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
   emailAndPassword: {
     enabled: true,
     async sendResetPassword({ user, url }) {
@@ -51,11 +58,9 @@ export const auth = betterAuth({
   ],
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
-      // Validate sign-up (server-side only validates individual fields)
       if (ctx.path === "/sign-up/email") {
         const { name, email, password } = ctx.body || {};
 
-        // Validate name
         if (name) {
           const nameResult = nameSchema.safeParse(name);
           if (!nameResult.success) {
@@ -65,7 +70,6 @@ export const auth = betterAuth({
           }
         }
 
-        // Validate email
         if (email) {
           const emailResult = emailSchema.safeParse(email);
           if (!emailResult.success) {
@@ -75,7 +79,6 @@ export const auth = betterAuth({
           }
         }
 
-        // Validate password
         if (password) {
           const passwordResult = passwordSchema.safeParse(password);
           if (!passwordResult.success) {
@@ -86,11 +89,9 @@ export const auth = betterAuth({
         }
       }
 
-      // Validate sign-in
       if (ctx.path === "/sign-in/email") {
         const { email, password } = ctx.body || {};
 
-        // Validate email
         if (email) {
           const emailResult = emailSchema.safeParse(email);
           if (!emailResult.success) {
@@ -100,7 +101,6 @@ export const auth = betterAuth({
           }
         }
 
-        // Validate password format (not strength for sign-in, just basic format)
         if (password) {
           if (typeof password !== "string" || password.length < 1) {
             throw new APIError("BAD_REQUEST", {
@@ -110,7 +110,6 @@ export const auth = betterAuth({
         }
       }
 
-      // Validate password reset and change password
       if (ctx.path === "/reset-password" || ctx.path === "/change-password") {
         const password = ctx.body?.password || ctx.body?.newPassword;
 

@@ -8,9 +8,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { UserDropdown } from "@/components/UserDropdown";
 import { Shield, Users, Settings, Database } from "lucide-react";
 import { unauthorized, forbidden } from "next/navigation";
+import { Label } from "@/components/ui/label";
 
 export const metadata: Metadata = {
   title: "Admin Panel",
@@ -25,7 +25,7 @@ export default async function AdminPage() {
   if (user.role !== "admin") return forbidden();
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Admin Panel</h1>
@@ -36,7 +36,6 @@ export default async function AdminPage() {
             <Shield className="h-3 w-3" />
             Admin Access
           </Badge>
-          <UserDropdown user={user} />
         </div>
       </div>
 
@@ -52,32 +51,32 @@ export default async function AdminPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Name
-                </label>
+                </Label>
                 <p className="text-base">{user.name}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Email
-                </label>
+                </Label>
                 <p className="text-base">{user.email}</p>
               </div>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Role
-                </label>
+                </Label>
                 <div className="flex items-center gap-2">
                   <Badge variant="destructive">{user.role}</Badge>
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   User ID
-                </label>
-                <p className="text-base font-mono text-sm">{user.id}</p>
+                </Label>
+                <p className="font-mono text-sm">{user.id}</p>
               </div>
             </div>
           </div>

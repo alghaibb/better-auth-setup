@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getServerSession } from "@/lib/get-session";
 import { redirect } from "next/navigation";
+import { GitHubLoginButton } from "@/components/ui/github-login-button";
+import { OrSeparator } from "@/components/ui/or-separator";
 
 export const metadata: Metadata = {
   title: "Sign Up",
@@ -40,7 +42,11 @@ export default async function SignUpPage() {
               Enter your information to create an account
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-6">
+            <GitHubLoginButton />
+
+            <OrSeparator />
+
             <SignUpForm />
 
             <div className="text-center text-sm">

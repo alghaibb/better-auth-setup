@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { UserDropdown } from "@/components/UserDropdown";
 import EmailVerificationBanner from "./_components/EmailVerificationBanner";
-import { User, Mail, Calendar } from "lucide-react";
+import { User as UserIcon, Mail, Calendar } from "lucide-react";
 import { unauthorized } from "next/navigation";
+import type { User } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -20,14 +20,14 @@ export const metadata: Metadata = {
 
 export default async function DashboardPage() {
   const session = await getServerSession();
-  const user = session?.user;
+  const user: User | undefined = session?.user;
 
   if (!user) return unauthorized();
 
   const isVerified = user?.emailVerified;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -41,17 +41,15 @@ export default async function DashboardPage() {
             </Badge>
             {user.role && <Badge variant="outline">{user.role}</Badge>}
           </div>
-          <UserDropdown user={user} />
         </div>
       </div>
 
       <EmailVerificationBanner user={user} />
 
-      {/* User Information Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <User className="h-5 w-5" />
+            <UserIcon className="h-5 w-5" />
             User Information
           </CardTitle>
           <CardDescription>Your account details and status</CardDescription>
@@ -73,12 +71,6 @@ export default async function DashboardPage() {
                   <Mail className="h-4 w-4 text-muted-foreground" />
                   <p className="text-base">{user.email}</p>
                 </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">
-                  User ID
-                </label>
-                <p className="text-base font-mono text-sm">{user.id}</p>
               </div>
             </div>
             <div className="space-y-4">
