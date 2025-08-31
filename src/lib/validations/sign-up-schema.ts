@@ -5,7 +5,6 @@ import {
   passwordSchema,
 } from "./shared-schema";
 
-// Sign-up schema using shared schemas
 export const signUpSchema = z
   .object({
     name: nameSchema,

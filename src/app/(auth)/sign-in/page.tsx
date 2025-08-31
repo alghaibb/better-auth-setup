@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <div className="flex min-h-svh items-center justify-center">
+    <>
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">Sign In</h1>
@@ -43,6 +43,6 @@ export default function SignInPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </>
   );
 }
