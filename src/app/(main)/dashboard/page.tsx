@@ -12,6 +12,8 @@ import EmailVerificationBanner from "./_components/EmailVerificationBanner";
 import { User as UserIcon, Mail, Calendar } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import type { User } from "@/lib/auth";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -55,18 +57,26 @@ export default async function DashboardPage() {
           <CardDescription>Your account details and status</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Image
+              src={user.image ?? ""}
+              alt={user.name}
+              width={300}
+              height={300}
+              className="rounded-full object-cover"
+            />
+
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Name
-                </label>
+                </Label>
                 <p className="text-base">{user.name}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Email
-                </label>
+                </Label>
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-muted-foreground" />
                   <p className="text-base">{user.email}</p>
@@ -75,9 +85,9 @@ export default async function DashboardPage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Email Status
-                </label>
+                </Label>
                 <div className="flex items-center gap-2">
                   <Badge variant={isVerified ? "default" : "destructive"}>
                     {isVerified ? "Verified" : "Unverified"}
@@ -85,17 +95,17 @@ export default async function DashboardPage() {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Role
-                </label>
+                </Label>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline">{user.role || "User"}</Badge>
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">
+                <Label className="text-sm font-medium text-muted-foreground">
                   Member Since
-                </label>
+                </Label>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <p className="text-base">

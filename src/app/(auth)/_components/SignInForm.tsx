@@ -21,11 +21,14 @@ import { toast } from "sonner";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectTo = searchParams.get("redirect");
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -47,7 +50,7 @@ export default function SignInForm() {
       toast.error(error.message || "Something went wrong");
     } else {
       toast.success("Sign in successful");
-      router.push("/dashboard");
+      router.push(redirectTo ?? "/dashboard");
     }
   }
 
