@@ -3,6 +3,7 @@ import { render } from "@react-email/render";
 import VerifyEmailOtp from "./email-templates/verify-email-otp";
 import ResetPassword from "./email-templates/reset-password";
 import MagicLink from "./email-templates/magic-link";
+import ChangeEmailVerification from "./email-templates/change-email-verification";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -27,6 +28,12 @@ interface SendResetPasswordEmailValues {
 interface SendMagicLinkEmailValues {
   to: string;
   url: string;
+  name?: string;
+}
+
+interface SendChangeEmailVerificationEmailValues {
+  to: string;
+  token: string;
   name?: string;
 }
 
@@ -98,6 +105,28 @@ export async function sendMagicLinkEmail({
     });
   } catch (error) {
     console.error("Failed to send magic link email:", error);
+    throw error;
+  }
+}
+
+export async function sendChangeEmailVerificationEmail({
+  to,
+  token,
+  name,
+}: SendChangeEmailVerificationEmailValues) {
+  try {
+    const emailHtml = await render(
+      ChangeEmailVerification({ token, email: to, name })
+    );
+
+    await resend.emails.send({
+      from: "noreply@codewithmj.com",
+      to,
+      subject: "Verify your new email address",
+      html: emailHtml,
+    });
+  } catch (error) {
+    console.error("Failed to send change email verification email:", error);
     throw error;
   }
 }

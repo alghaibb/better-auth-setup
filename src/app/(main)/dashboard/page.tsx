@@ -13,7 +13,7 @@ import { User as UserIcon, Mail, Calendar } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import type { User } from "@/lib/auth";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
+import { UserAvatar } from "@/components/UserAvatar";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -30,7 +30,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      {/* Header */}
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
@@ -58,13 +57,13 @@ export default async function DashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Image
-              src={user.image ?? ""}
-              alt={user.name}
-              width={300}
-              height={300}
-              className="rounded-full object-cover"
-            />
+            <div className="flex justify-center">
+              <UserAvatar
+                name={user.name}
+                image={user.image}
+                className="size-32"
+              />
+            </div>
 
             <div className="space-y-4">
               <div>

@@ -7,6 +7,7 @@ import {
   sendOtpEmail,
   sendResetPasswordEmail,
   sendMagicLinkEmail,
+  sendChangeEmailVerificationEmail,
 } from "./email";
 import {
   passwordSchema,
@@ -36,6 +37,16 @@ export const auth = betterAuth({
     },
   },
   user: {
+    changeEmail: {
+      enabled: true,
+      async sendChangeEmailVerification({ user, url }) {
+        await sendChangeEmailVerificationEmail({
+          to: user.email,
+          token: url,
+          name: user.name,
+        });
+      },
+    },
     additionalFields: {
       role: {
         type: "string",
@@ -45,22 +56,20 @@ export const auth = betterAuth({
   },
   plugins: [
     emailOTP({
-      async sendVerificationOTP({ email, otp, type }) {
-        if (type === "email-verification") {
-          await sendOtpEmail({
-            to: email,
-            otp,
-            type: "email-verification",
-          });
-        }
+      async sendVerificationOTP({ email, otp }) {
+        await sendOtpEmail({
+          to: email,
+          otp,
+          type: "email-verification",
+        });
       },
       otpLength: 6,
       expiresIn: 300,
       sendVerificationOnSignUp: true,
-      overrideDefaultEmailVerification: true,
+      overrideDefaultEmailVerification: false,
     }),
     magicLink({
-      async sendMagicLink({ email, url, token }, request) {
+      async sendMagicLink({ email, url }) {
         await sendMagicLinkEmail({
           to: email,
           url,
