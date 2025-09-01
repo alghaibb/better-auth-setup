@@ -28,8 +28,6 @@ A modern, full-featured authentication system built with Next.js 15, Better Auth
 - **Role-based Access Control** (Admin/User roles)
 - **Session Management** with automatic cleanup
 - **CSRF Protection** and secure headers
-- **Database Connection Pooling** optimized for serverless environments
-- **Retry Logic** for database operations with graceful error handling
 
 ### 🎨 UI/UX
 
