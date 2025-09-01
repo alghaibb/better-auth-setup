@@ -50,15 +50,16 @@ export const ChangeEmailVerification = ({
           </Section>
 
           <Text style={text}>
-            This link will expire for security purposes. If the button doesn't
-            work, you can also copy and paste this link into your browser:
+            This link will expire for security purposes. If the button
+            doesn&apos;t work, you can also copy and paste this link into your
+            browser:
           </Text>
 
           <Text style={linkText}>{token}</Text>
 
           <Text style={text}>
-            If you didn't request this email change, you can safely ignore this
-            email and your current email address will remain unchanged.
+            If you didn&apos;t request this email change, you can safely ignore
+            this email and your current email address will remain unchanged.
           </Text>
 
           <Text style={footer}>

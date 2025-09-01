@@ -42,8 +42,8 @@ export const VerifyEmailOtp = ({ otp, email }: VerifyEmailOtpProps) => (
         </Text>
 
         <Text style={text}>
-          If you didn't request this verification, you can safely ignore this
-          email.
+          If you didn&apos;t request this verification, you can safely ignore
+          this email.
         </Text>
 
         <Text style={footer}>

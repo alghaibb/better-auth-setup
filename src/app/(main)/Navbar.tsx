@@ -2,6 +2,7 @@ import { UserDropdown } from "@/components/UserDropdown";
 import { getServerSession } from "@/lib/get-session";
 import { User } from "@/lib/auth";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default async function Navbar() {
   const session = await getServerSession();
@@ -18,6 +19,7 @@ export default async function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <UserDropdown user={user} />
         </div>
       </div>

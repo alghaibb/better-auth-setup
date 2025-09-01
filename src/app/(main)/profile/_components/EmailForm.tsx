@@ -71,7 +71,7 @@ export default function EmailForm({ currentEmail }: EmailFormProps) {
       <CardHeader>
         <CardTitle>Email Address</CardTitle>
         <CardDescription>
-          Update your email address. You'll need to verify the new email.
+          Update your email address. You&apos;ll need to verify the new email.
         </CardDescription>
       </CardHeader>
       <CardContent>

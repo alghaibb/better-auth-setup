@@ -55,7 +55,7 @@ export default async function SignInPage() {
             <SignInForm />
 
             <div className="text-center text-sm">
-              <span>Don't have an account? </span>
+              <span>Don&apos;t have an account? </span>
               <Button asChild variant="link" className="px-0">
                 <Link href="/sign-up">Sign up</Link>
               </Button>

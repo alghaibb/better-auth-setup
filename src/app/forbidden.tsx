@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "403 - Forbidden",
-  description: "You don't have access to this page.",
+  description: "You don&apos;t have access to this page.",
 };
 
 export default function ForbiddenPage() {
@@ -33,7 +33,7 @@ export default function ForbiddenPage() {
 
         <Message variant="error" title="Permission Denied">
           <div className="space-y-3">
-            <p>You don't have permission to access this resource.</p>
+            <p>You don&apos;t have permission to access this resource.</p>
             <p className="text-sm text-muted-foreground">
               If you believe this is an error, please contact your
               administrator.

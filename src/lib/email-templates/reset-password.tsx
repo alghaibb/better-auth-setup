@@ -47,7 +47,7 @@ export const ResetPassword = ({ url, email, name }: ResetPasswordProps) => (
         </Section>
 
         <Text style={text}>
-          If the button doesn't work, you can copy and paste this link into your
+          If the button doesn&apos;t work, you can copy and paste this link into your
           browser:
         </Text>
 
@@ -58,7 +58,7 @@ export const ResetPassword = ({ url, email, name }: ResetPasswordProps) => (
         </Text>
 
         <Text style={text}>
-          If you didn't request a password reset, you can safely ignore this
+          If you didn&apos;t request a password reset, you can safely ignore this
           email. Your password will not be changed.
         </Text>
 

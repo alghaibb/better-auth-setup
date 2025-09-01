@@ -32,6 +32,7 @@ A modern, full-featured authentication system built with Next.js 15, Better Auth
 ### 🎨 UI/UX
 
 - **Modern Design** with Tailwind CSS and shadcn/ui components
+- **Dark/Light Mode** with system preference detection and manual toggle
 - **Responsive Layout** optimized for all devices
 - **Professional Email Templates** using React Email
 - **Loading States** and error handling throughout
@@ -44,6 +45,7 @@ A modern, full-featured authentication system built with Next.js 15, Better Auth
 - **Authentication:** Better Auth
 - **Database:** Vercel Postgres (powered by Neon) with Prisma ORM
 - **Styling:** Tailwind CSS + shadcn/ui
+- **Theming:** next-themes for dark/light mode
 - **Email:** React Email + Resend
 - **Validation:** Zod schemas
 - **Forms:** React Hook Form
